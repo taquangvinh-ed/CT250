@@ -1,5 +1,6 @@
 import Footer from "./customer/components/footer/Footer";
 import Navigation from "./customer/components/Navigation";
+import Product from "./customer/components/product/Product";
 import HomePage from "./customer/pages/HomePage/HomePage";
 
 function App() {
@@ -9,7 +10,8 @@ function App() {
         <Navigation />
       </div>
       <div>
-        <HomePage />
+        {/* <HomePage /> */}
+        <Product title="Điện thoại" />
       </div>
       <Footer />
     </div>
