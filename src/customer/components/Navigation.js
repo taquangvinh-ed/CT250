@@ -19,8 +19,10 @@ import {
   Bars3Icon,
   MagnifyingGlassIcon,
   ShoppingBagIcon,
+  UserIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 
 const navigation = {
   categories: [
@@ -50,15 +52,15 @@ const navigation = {
           id: "brandID",
           name: "Thương hiệu",
           items: [
-            { name: "iPhone", href: "#" },
-            { name: "Samsung", href: "#" },
-            { name: "Xiaomi", href: "#" },
-            { name: "OPPO", href: "#" },
-            { name: "realme", href: "#" },
-            { name: "TECNO", href: "#" },
-            { name: "vivo", href: "#" },
-            { name: "Nokia", href: "#" },
-            { name: "Masstel", href: "#" },
+            { id: "iphone", name: "iPhone", href: "#" },
+            { id: "samsung", name: "Samsung", href: "#" },
+            { id: "xiaomi", name: "Xiaomi", href: "#" },
+            { id: "oppo", name: "OPPO", href: "#" },
+            { id: "realme", name: "realme", href: "#" },
+            { id: "tecno", name: "TECNO", href: "#" },
+            { id: "vivo", name: "vivo", href: "#" },
+            { id: "nokia", name: "Nokia", href: "#" },
+            { id: "masstel", name: "Masstel", href: "#" },
           ],
         },
         {
@@ -79,9 +81,6 @@ const navigation = {
           items: [
             { name: "iPhone 15 Pro Max", href: "#" },
             { name: "Galaxy 25 Ultra", href: "#" },
-            { name: "", href: "#" },
-            { name: "", href: "#" },
-            { name: "", href: "#" },
           ],
         },
       ],
@@ -239,13 +238,14 @@ export default function Navigation() {
                           className="mt-6 flex flex-col space-y-6"
                         >
                           {section.items.map((item) => (
-                            <li key={item.name} className="flow-root">
-                              <a
-                                href={item.href}
+                            <li key={item.id} className="flow-root">
+                              <Link
+                                to={`/${category.id}/${section.id}/${item.id}`}
                                 className="-m-2 block p-2 text-gray-500"
+                                onClick={() => setOpen(false)}
                               >
                                 {item.name}
-                              </a>
+                              </Link>
                             </li>
                           ))}
                         </ul>
@@ -289,17 +289,41 @@ export default function Navigation() {
             </div>
 
             <div className="border-t border-gray-200 px-4 py-6">
-              <a href="#" className="-m-2 flex items-center p-2">
-                <img
-                  alt=""
-                  src="https://tailwindui.com/plus/img/flags/flag-canada.svg"
-                  className="block h-auto w-5 shrink-0"
-                />
-                <span className="ml-3 block text-base font-medium text-gray-900">
-                  CAD
-                </span>
-                <span className="sr-only">, change currency</span>
-              </a>
+              <Popover className="relative">
+                {/* Nút để mở menu */}
+                <PopoverButton className="-m-2 flex items-center p-2 focus:outline-none">
+                  <UserIcon className="h-6 w-6 text-gray-900" />{" "}
+                  {/* Biểu tượng My Account */}
+                  <span className="ml-3 block text-base font-medium text-gray-900">
+                    My Account_t
+                  </span>
+                </PopoverButton>
+
+                {/* Menu xổ xuống */}
+                <PopoverPanel className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <div className="py-1">
+                    {/* Các tùy chọn trong menu */}
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      Đơn hàng của tôi
+                    </a>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      Thông tin tài khoản
+                    </a>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      Đăng xuất
+                    </a>
+                  </div>
+                </PopoverPanel>
+              </Popover>
             </div>
           </DialogPanel>
         </div>
@@ -307,7 +331,10 @@ export default function Navigation() {
 
       <header className="relative bg-white">
         <p className="flex h-10 items-center justify-center bg-indigo-600 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
-          Get free delivery on orders over $100
+          <span className="text-white text-lg font-semibold">
+            GIAO NHANH - MIỄN PHÍ
+          </span>{" "}
+          cho đơn từ 300k
         </p>
 
         <nav
@@ -326,7 +353,6 @@ export default function Navigation() {
                 <Bars3Icon aria-hidden="true" className="size-6" />
               </button>
 
-              {/* Logo */}
               <div className="ml-4 flex lg:ml-0 ">
                 <a href="#">
                   <span className="sr-only">Your Company</span>
@@ -404,13 +430,14 @@ export default function Navigation() {
                                       className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
                                     >
                                       {section.items.map((item) => (
-                                        <li key={item.name} className="flex">
-                                          <a
-                                            href={item.href}
-                                            className="hover:text-gray-800"
+                                        <li key={item.id} className="flow-root">
+                                          <Link
+                                            to={`/${category.id}/${section.id}/${item.id}`}
+                                            className="-m-2 block p-2 text-gray-500"
+                                            onClick={() => setOpen(false)}
                                           >
                                             {item.name}
-                                          </a>
+                                          </Link>
                                         </li>
                                       ))}
                                     </ul>
@@ -442,30 +469,50 @@ export default function Navigation() {
                     href="#"
                     className="text-sm font-medium text-gray-700 hover:text-gray-800"
                   >
-                    Sign in
+                    Đăng nhập
                   </a>
                   <span aria-hidden="true" className="h-6 w-px bg-gray-200" />
                   <a
                     href="#"
                     className="text-sm font-medium text-gray-700 hover:text-gray-800"
                   >
-                    Create account
+                    Đăng ký tài khoản
                   </a>
                 </div>
 
-                <div className="hidden lg:ml-8 lg:flex">
-                  <a
-                    href="#"
-                    className="flex items-center text-gray-700 hover:text-gray-800"
-                  >
-                    <img
-                      alt=""
-                      src="https://tailwindui.com/plus/img/flags/flag-canada.svg"
-                      className="block h-auto w-5 shrink-0"
-                    />
-                    <span className="ml-3 block text-sm font-medium">CAD</span>
-                    <span className="sr-only">, change currency</span>
-                  </a>
+                <div className="border-t border-gray-200 px-4 py-6">
+                  <Popover className="relative">
+                    {/* Nút để mở menu */}
+                    <PopoverButton className="-m-2 flex items-center p-2 focus:outline-none">
+                      <UserIcon className="h-6 w-6 text-gray-900" />{" "}
+                      {/* Biểu tượng My Account */}
+                    </PopoverButton>
+
+                    {/* Menu xổ xuống */}
+                    <PopoverPanel className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <div className="py-1">
+                        {/* Các tùy chọn trong menu */}
+                        <Link
+                          to="/account/order"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                          Đơn hàng của tôi
+                        </Link>
+                        <a
+                          href="#"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                          Thông tin tài khoản
+                        </a>
+                        <a
+                          href="#"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                          Đăng xuất
+                        </a>
+                      </div>
+                    </PopoverPanel>
+                  </Popover>
                 </div>
 
                 {/* Search */}

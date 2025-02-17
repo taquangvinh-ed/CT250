@@ -1,9 +1,11 @@
-import HomeSectionCard from "../../homeSection/HomeSectionCard";
+import HomeSectionCard from "../../HomeSection/HomeSectionCard";
 import AliceCarousel from "react-alice-carousel";
 import { Button } from "@headlessui/react";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { useState } from "react";
+import mockProductData from "../product/mockProductData";
+import ProductCard from "../product/ProductCard";
 const responsive = {
   0: { items: 1 },
   720: { items: 3 },
@@ -67,6 +69,13 @@ const HomSectionCarosel = () => {
       <HomeSectionCard />
     </div>
   ));
+
+  // const items = mockProductData.products.map((item) => (
+  //   <div>
+  //     <ProductCard key={item.id} product={item.product} />
+  //   </div>
+  // ));
+
   return (
     <div className="">
       <div className="relative p-5 border border-black">

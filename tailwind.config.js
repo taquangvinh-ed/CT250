@@ -6,6 +6,9 @@ module.exports = {
       margin: {
         75: "75px",
       },
+      gridTemplateRows: {
+        "[auto,auto,1fr]": "auto auto 1fr",
+      },
     },
   },
   plugins: [],

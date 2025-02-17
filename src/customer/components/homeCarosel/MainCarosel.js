@@ -22,7 +22,7 @@ const items = MainCaroselData.map((item, index) => (
 const MainCarousel = () => {
   const PreviousButton = () => {
     return (
-      <button className=" absolute bg-sky-100 top-1/2 left-0 transform -translate-y-1/2 rounded">
+      <button className=" absolute bg-sky-50 top-1/2 left-0 transform -translate-y-1/2 rounded-full">
         <ChevronLeftIcon fontSize="large" />
       </button>
     );
@@ -30,15 +30,15 @@ const MainCarousel = () => {
 
   const NextButton = () => {
     return (
-      <button className="absolute bg-sky-100 top-1/2 right-0 transform -translate-y-1/2 rounded">
+      <button className="absolute bg-sky-100 top-1/2 right-0 transform -translate-y-1/2 rounded-full">
         <ChevronRightIcon fontSize="large" />
       </button>
     );
   };
 
   return (
-    <div className="relative flex border border-black mx-75">
-      <div className="relative al  h-[300px] w-[670px] overflow-hidden">
+    <div className="relative flex border border-black mx-75 justify-end">
+      <div className="relative al  h-[300px] w-[690px] overflow-hidden">
         <AliceCarousel
           items={items}
           responsive={responsive}

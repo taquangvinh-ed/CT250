@@ -5,9 +5,11 @@ import ProductFeature from "./ProductFeature";
 import StarRating from "./StarRating";
 import Bookmark from "./Bookmark";
 import DifferenceIcon from "@mui/icons-material/Difference";
+import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
   const [selectedButton, setSelectedButton] = useState(product.versions[0]);
+  const navigate = useNavigate();
 
   const handleButtonClick = (version) => {
     setSelectedButton(version);
@@ -15,6 +17,7 @@ const ProductCard = ({ product }) => {
 
   return (
     <div
+      onClick={() => navigate(`/product/${5}`)}
       className="productCard my-4 px-2 w-[15rem] h-[28rem] transition-all mx-1 cursor-pointer border flex flex-col transition-transform duration-2 ease-in-out transfrom hover:shadow-[rgba(0,0,0,0.16)_0px_10px_36px_0px]"
       style={{ borderRadius: "5%" }}
     >
@@ -34,6 +37,8 @@ const ProductCard = ({ product }) => {
           screenSize={selectedButton.screenSize}
           batteryCapacity={selectedButton.batteryCapacity}
         />
+
+        {/* Button */}
         <div className="flex">
           <div style={{ display: "flex", flexWrap: "wrap" }}>
             {product.versions.map((version, index) => (
@@ -46,6 +51,8 @@ const ProductCard = ({ product }) => {
             ))}
           </div>
         </div>
+
+        {/* Price */}
         <div>
           <ProductPrice
             originalPrice={selectedButton.originalPrice}

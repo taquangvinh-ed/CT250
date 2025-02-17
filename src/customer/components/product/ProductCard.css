@@ -14,7 +14,7 @@
 }
 
 .buttonIsNotSelected {
-  background-color: ##1d4ed8;
+  background-color: #1e40af;
   transition: background-color 0.3s;
   color: white;
 }
