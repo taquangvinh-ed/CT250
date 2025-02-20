@@ -12,10 +12,10 @@ const HomePage = () => {
       <div className="space-y-10 py-20 flex flex-col justify-center">
         {/* <HomSectionCarosel /> */}
         <HomSection sectionTitle={"SẢN PHẨM ĐÃ XEM"} />
-        <HomSection sectionTitle={"ĐIỆN THOẠI"} />
-        <HomSection sectionTitle={"LAPTOP"} />
-        <HomSection sectionTitle={"MÁY TÍNH BẢNG"} />
-        <HomSection sectionTitle={"MÁY TÍNH BÀN - DESKTOP"} />
+        <HomSection sectionTitle={"iPhone"} />
+        <HomSection sectionTitle={"Samsung"} />
+        <HomSection sectionTitle={"Xiaomi"} />
+        <HomSection sectionTitle={"OPPO"} />
       </div>
     </div>
   );

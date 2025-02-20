@@ -16,12 +16,6 @@ function App() {
       <Routes>
         <Route path="/*" element={<CustomerRouters />}></Route>
       </Routes>
-      <div>{/* <Navigation /> */}</div>
-      <div>
-        {/* <HomePage /> */}
-        {/* <Product title="Điện thoại" /> */}
-      </div>
-      <Footer />
     </div>
   );
 }

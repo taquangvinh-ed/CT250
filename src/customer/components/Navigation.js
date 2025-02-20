@@ -22,7 +22,7 @@ import {
   UserIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const navigation = {
   categories: [
@@ -153,7 +153,7 @@ const navigation = {
 
 export default function Navigation() {
   const [open, setOpen] = useState(false);
-
+  const navigate = useNavigate();
   return (
     <div className="bg-white" style={{ zIndex: 1000, position: "relative" }}>
       {/* Mobile menu */}
@@ -330,10 +330,10 @@ export default function Navigation() {
       </Dialog>
 
       <header className="relative bg-white">
-        <p className="flex h-10 items-center justify-center bg-indigo-600 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
-          <span className="text-white text-lg font-semibold">
+        <p className="flex h-10 items-center justify-center bg-green-600 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
+          <span className="text-white text-lg font-semibold mr-4">
             GIAO NHANH - MIỄN PHÍ
-          </span>{" "}
+          </span>
           cho đơn từ 300k
         </p>
 
@@ -359,7 +359,8 @@ export default function Navigation() {
                   <img
                     alt=""
                     src="https://res.cloudinary.com/dwif85oqc/image/upload/v1739246144/ecommerce/images/Logo/hvqpxo32q2njeq0uwph9.png"
-                    className="h-14 w-auto object-cover"
+                    className="h-14 w-auto object-cover cursor-pointer"
+                    onClick={() => navigate("/")}
                   />
                 </a>
               </div>
@@ -464,10 +465,21 @@ export default function Navigation() {
               </PopoverGroup>
 
               <div className="ml-auto flex items-center">
+                {/* Search */}
+                <div className="flex lg:ml-6">
+                  <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
+                    <span className="sr-only">Search</span>
+                    <MagnifyingGlassIcon
+                      aria-hidden="true"
+                      className="size-6"
+                    />
+                  </a>
+                </div>
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                   <a
-                    href="#"
+                    href=""
                     className="text-sm font-medium text-gray-700 hover:text-gray-800"
+                    onClick={() => navigate("/login")}
                   >
                     Đăng nhập
                   </a>
@@ -475,6 +487,7 @@ export default function Navigation() {
                   <a
                     href="#"
                     className="text-sm font-medium text-gray-700 hover:text-gray-800"
+                    onClick={() => navigate("/register")}
                   >
                     Đăng ký tài khoản
                   </a>
@@ -515,23 +528,13 @@ export default function Navigation() {
                   </Popover>
                 </div>
 
-                {/* Search */}
-                <div className="flex lg:ml-6">
-                  <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
-                    <span className="sr-only">Search</span>
-                    <MagnifyingGlassIcon
-                      aria-hidden="true"
-                      className="size-6"
-                    />
-                  </a>
-                </div>
-
                 {/* Cart */}
                 <div className="ml-4 flow-root lg:ml-6">
-                  <a href="#" className="group -m-2 flex items-center p-2">
+                  <a href="" className="group -m-2 flex items-center p-2">
                     <ShoppingBagIcon
                       aria-hidden="true"
                       className="size-6 shrink-0 text-gray-400 group-hover:text-gray-500"
+                      onClick={() => navigate("/cart")}
                     />
                     <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
                       0

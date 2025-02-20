@@ -1,11 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddressCard from "../AddressCard/AddressCard";
 import { Autocomplete, Box, Button, TextField } from "@mui/material";
 
 const ConfirmDeliverAddress = () => {
-  const [city, setCity] = useState(null);
-  const [state, setState] = useState(null);
-  const [village, setVillage] = useState(null);
+  const [provinces, setProvinces] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [wards, setWards] = useState([]);
+  const [selectedProvince, setSelectedProvince] = useState(null);
+  const [selectedDistrict, setSelectedDistrict] = useState(null);
+  const [selectedWard, setSelectedWard] = useState(null);
+
+  useEffect(function () {
+    async function fetchProvinces() {
+      const res = await fetch("https://esgoo.net/api-tinhthanh/1/0.htm");
+      if (!res.ok)
+        throw new Error("Something went wrong with fetching province");
+      const data = await res.json();
+      setProvinces(data.data);
+    }
+    fetchProvinces();
+  }, []);
+
   const options = [
     { label: "Hà Nội", id: 1 },
     { label: "Thành phố Hồ Chí Minh", id: 2 },
@@ -18,9 +33,9 @@ const ConfirmDeliverAddress = () => {
       firstName: formData.get("firstName"),
       lastName: formData.get("lastName"),
       streetAddress: formData.get("address"),
-      city: city ? city.label : null,
-      state: state ? state.label : null,
-      village: village ? village.label : null,
+      province: selectedProvince ? selectedProvince : null,
+      district: selectedDistrict ? selectedDistrict : null,
+      ward: selectedWard ? selectedWard : null,
       phoneNumber: formData.get("phoneNumber"),
     };
     console.log("address", address);
@@ -28,8 +43,8 @@ const ConfirmDeliverAddress = () => {
 
   return (
     <div>
-      <div className="grid grid-cols-3 gap-4 border border-black">
-        <div className=" border border-black col-span-1 grid grid-cols-1 border rounded-e-sm shadow-md h-[30rem] overflow-y-scroll">
+      <div className="grid grid-cols-3 gap-4 ">
+        <div className=" col-span-1 grid grid-cols-1 border rounded-e-sm shadow-md h-[30rem] overflow-y-scroll">
           <div className="p-5 py-7 border-b cursor-pointer">
             <AddressCard />
             <Button sx={{ mt: 2 }} size="large" variant="contained">
@@ -37,12 +52,12 @@ const ConfirmDeliverAddress = () => {
             </Button>
           </div>
         </div>
-        <div className=" col-span-2 border border-black grid grid-cols-2">
+        <div className=" col-span-2  grid grid-cols-2">
           <div className="col-span-3">
             <Box className=" w-full border rounded-s-md shadow-md p-5">
-              <form onSubmit={handleSubmit} className="border border-green-700">
+              <form onSubmit={handleSubmit} className="">
                 <div className="grid grid-cols-2 sm:grid-cols-2 gap-3">
-                  <div className="col-span-1 grid grid-cols-1 border border-black">
+                  <div className="col-span-1 grid grid-cols-1 ">
                     <TextField
                       required
                       id="lastName"
@@ -52,7 +67,7 @@ const ConfirmDeliverAddress = () => {
                       autoComplete="family-name"
                     ></TextField>
                   </div>
-                  <div className="col-span-1 grid grid-cols-1 border border-black">
+                  <div className="col-span-1 grid grid-cols-1 ">
                     <TextField
                       required
                       id="firstName"
@@ -62,7 +77,7 @@ const ConfirmDeliverAddress = () => {
                       autoComplete="given-name"
                     ></TextField>
                   </div>
-                  <div className="col-span-2 grid grid-cols-1 border border-black">
+                  <div className="col-span-2 grid grid-cols-1 ">
                     <TextField
                       required
                       id="address"
@@ -74,13 +89,19 @@ const ConfirmDeliverAddress = () => {
                       rows={4}
                     ></TextField>
                   </div>
-                  <div className="col-span-1 grid grid-cols-1 border border-black">
+                  <div className="col-span-1 grid grid-cols-1 ">
                     <Autocomplete
-                      id="city"
-                      options={options}
-                      getOptionLabel={(option) => option.label} // Lấy nhãn từ đối tượng
-                      onChange={(event, newValue) => {
-                        setCity(newValue);
+                      id="province"
+                      options={provinces}
+                      getOptionLabel={(option) => option.full_name}
+                      onChange={async (event, newValue) => {
+                        setSelectedProvince(newValue.full_name);
+                        const res = await fetch(
+                          `https://esgoo.net/api-tinhthanh/2/${newValue.id}.htm`
+                        );
+                        if (!res.ok) throw new Error("Get Districts fail");
+                        const data = await res.json();
+                        setDistricts(data.data);
                       }}
                       renderInput={(params) => (
                         <TextField
@@ -93,13 +114,20 @@ const ConfirmDeliverAddress = () => {
                       )}
                     />
                   </div>
-                  <div className="col-span-1 grid grid-cols-1 border border-black">
+                  <div className="col-span-1 grid grid-cols-1 ">
                     <Autocomplete
-                      id="state"
-                      options={options}
-                      getOptionLabel={(option) => option.label} // Lấy nhãn từ đối tượng
-                      onChange={(event, newValue) => {
-                        setState(newValue);
+                      id="district"
+                      options={districts}
+                      getOptionLabel={(option) => option.full_name}
+                      onChange={async (event, newValue) => {
+                        setSelectedDistrict(newValue.full_name);
+                        console.log("Selected District:", newValue.full_name);
+                        const res = await fetch(
+                          `https://esgoo.net/api-tinhthanh/3/${newValue.id}.htm`
+                        );
+                        if (!res.ok) throw new Error("Get Districts fail");
+                        const data = await res.json();
+                        setWards(data.data);
                       }}
                       renderInput={(params) => (
                         <TextField
@@ -112,13 +140,14 @@ const ConfirmDeliverAddress = () => {
                       )}
                     />
                   </div>
-                  <div className="col-span-1 grid grid-cols-1 border border-black">
+                  <div className="col-span-1 grid grid-cols-1">
                     <Autocomplete
-                      id="village"
-                      options={options}
-                      getOptionLabel={(option) => option.label} // Lấy nhãn từ đối tượng
+                      id="ward"
+                      options={wards}
+                      getOptionLabel={(option) => option.full_name}
                       onChange={(event, newValue) => {
-                        setVillage(newValue);
+                        setSelectedWard(newValue.full_name);
+                        console.log("Selected Ward:", newValue.full_name);
                       }}
                       renderInput={(params) => (
                         <TextField
@@ -131,7 +160,7 @@ const ConfirmDeliverAddress = () => {
                       )}
                     />
                   </div>
-                  <div className="col-span-1 grid grid-cols-1 border border-black">
+                  <div className="col-span-1 grid grid-cols-1 ">
                     <TextField
                       type="number"
                       required
@@ -142,8 +171,8 @@ const ConfirmDeliverAddress = () => {
                       autoComplete="phone-number"
                     ></TextField>
                   </div>
-                  <div className="col-span-2 grid grid-cols-1 border border-black">
-                    <div className="w-full h-full py-4 flex justify-center items-center border border-black">
+                  <div className="col-span-2 grid grid-cols-1 ">
+                    <div className="w-full h-full py-4 flex justify-center items-center ">
                       <Button
                         type="submit"
                         variant="contained"
